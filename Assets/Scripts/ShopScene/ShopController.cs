@@ -27,6 +27,7 @@ namespace ShopScene
             else
             {
                 SceneManager.LoadScene(Constants.EntryScene);
+                return;
             }
             
             
