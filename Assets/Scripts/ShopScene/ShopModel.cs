@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace ShopScene
 {
-    public class ShopModel
+    public class ShopModel : MonoBehaviour
     {
         public List<int> armorPrices;
         public List<int> weaponPrices;
