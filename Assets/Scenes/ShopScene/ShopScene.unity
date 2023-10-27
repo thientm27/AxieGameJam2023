@@ -352,6 +352,9 @@ MonoBehaviour:
   contentShops:
   - {fileID: 1202464804}
   - {fileID: 224140371}
+  textContentShops:
+  - {fileID: 1856018956}
+  - {fileID: 669420450}
 --- !u!1 &221474188
 GameObject:
   m_ObjectHideFlags: 0
