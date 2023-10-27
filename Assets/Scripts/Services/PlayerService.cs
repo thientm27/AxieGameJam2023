@@ -28,14 +28,7 @@ namespace Services
         public int UserCoin { get; set; }
         public List<int> ArmoryLevel { get; set; }
         public List<int> AccessoryLevel { get; set; }
-
-        public void LoadPlayerData()
-        {
-            ArmoryLevel = GetList(PlayerArmoryShop, new List<int> { 1, 1, 1, 1 });
-            AccessoryLevel = GetList(PlayerAccessoryShop, new List<int> { 1, 1, 1, 1 });
-            UserCoin = PlayerPrefs.GetInt(UserCoinKey, 0);
-
-        }
+        
         public void SavePlayerData()
         {
              SaveList(PlayerArmoryShop,ArmoryLevel);
@@ -194,6 +187,9 @@ namespace Services
             SelectedHoop = PlayerPrefs.GetInt(PlayerSelectedHoop, 100);
             SelectedFlame = PlayerPrefs.GetInt(PlayerSelectedFlame, 200);
             NewItemList = new();
+            ArmoryLevel = GetList(PlayerArmoryShop, new List<int> { 1, 1, 1, 1 });
+            AccessoryLevel = GetList(PlayerAccessoryShop, new List<int> { 1, 1, 1, 1 });
+            UserCoin = PlayerPrefs.GetInt(UserCoinKey, 0);
         }
 
         public void AddNewItem(int id)
