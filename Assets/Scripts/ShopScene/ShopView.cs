@@ -10,6 +10,7 @@ namespace ShopScene
     {
         public List<ContentShop> contentShops;
         public List<TextMeshProUGUI> textContentShops;
+        public TextMeshProUGUI userWallet;
 
         public void ChangeTab(DisplayShop newTab)
         {
@@ -18,8 +19,8 @@ namespace ShopScene
                 case DisplayShop.Armor:
                     contentShops[0].gameObject.SetActive(true);
                     textContentShops[0].color = Color.yellow;
-                    textContentShops[0].gameObject.transform.DOScale(new Vector2(1.2f, 1.2f),0.5f);
-                    
+                    textContentShops[0].gameObject.transform.DOScale(new Vector2(1.2f, 1.2f), 0.5f);
+
                     contentShops[1].gameObject.SetActive(false);
                     textContentShops[1].color = Color.white;
                     textContentShops[1].gameObject.transform.DOScale(Vector3.one, 0.5f);
@@ -31,9 +32,20 @@ namespace ShopScene
 
                     contentShops[1].gameObject.SetActive(true);
                     textContentShops[1].color = Color.yellow;
-                    textContentShops[1].gameObject.transform.DOScale(new Vector2(1.2f, 1.2f),0.5f);
+                    textContentShops[1].gameObject.transform.DOScale(new Vector2(1.2f, 1.2f), 0.5f);
                     break;
             }
+        }
+
+        public void SetUserWallet(int value)
+        {
+            userWallet.gameObject.transform.DOScale(new Vector2(1.2f, 1.2f), 1f).onComplete = () =>
+                {
+                    userWallet.text = value.ToString();
+                    userWallet.gameObject.transform.DOScale( Vector3.one, 0.5f);
+                };
+
+       
         }
     }
 }

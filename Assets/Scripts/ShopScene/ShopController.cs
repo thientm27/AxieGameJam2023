@@ -55,6 +55,7 @@ namespace ShopScene
 
             // Display first shop
             view.ChangeTab(_currentChoose);
+            view.SetUserWallet(_playerService.UserCoin);
         }
 
         private void Update()
