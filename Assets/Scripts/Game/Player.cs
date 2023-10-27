@@ -2,6 +2,7 @@ using UnityEngine;
 using Spine;
 using Spine.Unity;
 using DG.Tweening;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed = 18f;
     [SerializeField] private Vector2 limitWidth;
     [SerializeField] private RangeCheck rangeCheck;
+
+    // Action
+    public Action OnHit;
+    public Action OnMiss;
 
     // Cache
     private bool isUp = false;
@@ -73,6 +78,7 @@ public class Player : MonoBehaviour
         if (isUp == true) return;
         if(goTransform.position.y <= minHeight)
         {
+            OnMiss?.Invoke();
             downSpeed = defaultDownSpeed;
             isUp = true;
             Up();
@@ -100,5 +106,9 @@ public class Player : MonoBehaviour
             model.AnimationState.SetAnimation(0, idleAnim, true);
             model.timeScale = 1.0f;
         });
+    }
+    public void Death()
+    {
+
     }
 }

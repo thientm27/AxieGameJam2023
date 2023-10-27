@@ -10,5 +10,19 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         player.Initialized(model.AxieCharacters[0]);
+        player.OnHit = PlayerGotHit;
+        player.OnMiss = PlayerMissHit;
+    }
+    private void PlayerGotHit()
+    {
+        maxHeart -= 1;
+        if(maxHeart < 0)
+        {
+            player.Death();
+        }
+    }
+    private void PlayerMissHit()
+    {
+        speed -= 2;
     }
 }
