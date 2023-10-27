@@ -14,6 +14,7 @@ public static class Constants
 	public const string EntryScene = "Scenes/Entry";
 	public const string MainMenu = "Scenes/MainScene/MainScene";
 	public const string GamePlay = "Scenes/GamePlay/GamePlay";
+	public const string ShopScene = "Scenes/ShopScene/ShopScene";
 
 	// Popups
 }
