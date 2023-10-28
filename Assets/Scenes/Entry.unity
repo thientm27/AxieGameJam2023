@@ -198,7 +198,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37abf1c81b7d2c74aa3d187ca8019e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musics: []
+  musics:
+  - Name: InGame
+    AudioClip: {fileID: 8300000, guid: e9d44e402b544294ea083729dab7c7fe, type: 3}
+    Volume: 1
+  - Name: Menu
+    AudioClip: {fileID: 8300000, guid: ff27a3735297c41448a981c663cfab03, type: 3}
+    Volume: 1
 --- !u!1 &892603471
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,7 +373,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 1582869042}
-  sounds: []
+  sounds:
+  - Name: monster_hit_0
+    AudioClip: {fileID: 8300000, guid: fcc5f373eb1908147bc058b6a7e6e96c, type: 3}
+    Volume: 1
+  - Name: monster_hit_1
+    AudioClip: {fileID: 8300000, guid: c2c16b563c755ae49abab8152757f9b7, type: 3}
+    Volume: 1
+  - Name: monster_hit_2
+    AudioClip: {fileID: 8300000, guid: db31a091f2765e34283ce3ef2bbb040d, type: 3}
+    Volume: 1
+  - Name: monster_hit_3
+    AudioClip: {fileID: 8300000, guid: 9a1db65d15a414d42b9b175126ad0b63, type: 3}
+    Volume: 1
+  - Name: player_hurt
+    AudioClip: {fileID: 8300000, guid: bb8e68bad8c6715438b4e5a521bfbef1, type: 3}
+    Volume: 1
+  - Name: rocket
+    AudioClip: {fileID: 8300000, guid: 52d834597bcb5d5408ec66c6990a3674, type: 3}
+    Volume: 1
+  - Name: door_close
+    AudioClip: {fileID: 8300000, guid: 1ffdc3dba1909114d99fa00c97e45dc4, type: 3}
+    Volume: 1
+  - Name: door_open
+    AudioClip: {fileID: 8300000, guid: 80bf796d83436c240b1065c69e6e37c4, type: 3}
+    Volume: 1
+  - Name: attack1
+    AudioClip: {fileID: 8300000, guid: 2494381d6e7465f46aededfb9eeaa895, type: 3}
+    Volume: 1
+  - Name: attack2
+    AudioClip: {fileID: 8300000, guid: ab545a6fa27fea84e91535d090435654, type: 3}
+    Volume: 1
+  - Name: attack3
+    AudioClip: {fileID: 8300000, guid: 190cd6e303d089848bf34b5401a5622e, type: 3}
+    Volume: 1
+  - Name: rocket
+    AudioClip: {fileID: 8300000, guid: 52d834597bcb5d5408ec66c6990a3674, type: 3}
+    Volume: 1
+  - Name: fireball
+    AudioClip: {fileID: 8300000, guid: 86b013cdc8f204f45993182fd2a50814, type: 3}
+    Volume: 1
+  - Name: end_game
+    AudioClip: {fileID: 8300000, guid: 60a430de66246aa468f0745cd2d817b0, type: 3}
+    Volume: 1
+  - Name: life_up
+    AudioClip: {fileID: 8300000, guid: e89cd63139caa67468c1bc8df28d4753, type: 3}
+    Volume: 1
+  - Name: button
+    AudioClip: {fileID: 8300000, guid: c1049e34165dec94ba76946f8f13d1d7, type: 3}
+    Volume: 1
   music: {fileID: 745272479}
   musicObject: {fileID: 745272477}
   loadingTime: 0
