@@ -39,10 +39,10 @@ namespace ShopScene
 
         public void SetUserWallet(int value)
         {
-            userWallet.gameObject.transform.DOScale(new Vector2(1.2f, 1.2f), 1f).onComplete = () =>
+            userWallet.gameObject.transform.DOScale(new Vector2(1.2f, 1.2f), 0.2f).onComplete = () =>
                 {
                     userWallet.text = value.ToString();
-                    userWallet.gameObject.transform.DOScale( Vector3.one, 0.5f);
+                    userWallet.gameObject.transform.DOScale( Vector3.one, 0.2f);
                 };
 
        

@@ -355,6 +355,7 @@ MonoBehaviour:
   textContentShops:
   - {fileID: 1856018956}
   - {fileID: 669420450}
+  userWallet: {fileID: 406641455}
 --- !u!1 &221474188
 GameObject:
   m_ObjectHideFlags: 0

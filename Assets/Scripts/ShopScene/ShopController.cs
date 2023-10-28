@@ -1,3 +1,4 @@
+using System;
 using DG.DemiEditor;
 using Services;
 using UnityEngine;
@@ -73,11 +74,33 @@ namespace ShopScene
 
             if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
             {
-                SwitchTab(false);
+                SwitchTab();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                HandleBuy();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SceneManager.LoadScene(Constants.MainMenu);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                SceneManager.LoadScene(Constants.GamePlay);
+            }     
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+
+                _playerService.UserCoin += 100;
+                view.SetUserWallet(_playerService.UserCoin);
+
             }
         }
 
-        private void SwitchTab(bool isRight)
+        private void SwitchTab()
         {
             _index = 0;
             view.contentShops[0].SetIndicator(_index);
@@ -111,6 +134,38 @@ namespace ShopScene
 
         private void HandleBuy()
         {
+            var priceToBuy = 0;
+            switch (_currentChoose)
+            {
+                case DisplayShop.Armor:
+                    priceToBuy = model.GetPriceAmory(_index, _playerService.ArmoryLevel[_index]);
+                    if (priceToBuy <= _playerService.UserCoin) // enough monney
+                    {
+                        _playerService.UserCoin -= priceToBuy;
+                        _playerService.ArmoryLevel[_index]++;
+                        _playerService.SavePlayerData();
+                        view.contentShops[0].UpdateNewValue(_index,
+                            _playerService.ArmoryLevel[_index],
+                            model.GetPriceAmory(_index, _playerService.ArmoryLevel[_index]));
+                    }
+
+                    break;
+                case DisplayShop.Accessories:
+                    priceToBuy = model.GetPriceAccessory(_index, _playerService.AccessoryLevel[_index]);
+                    if (priceToBuy <= _playerService.UserCoin)
+                    {
+                        _playerService.UserCoin -= priceToBuy;
+                        _playerService.AccessoryLevel[_index]++;
+                        _playerService.SavePlayerData();
+                        view.contentShops[1].UpdateNewValue(_index,
+                            _playerService.AccessoryLevel[_index],
+                            model.GetPriceAmory(_index, _playerService.AccessoryLevel[_index]));
+                    }
+
+                    break;
+            }
+
+            view.SetUserWallet(_playerService.UserCoin);
         }
     }
 
