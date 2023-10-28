@@ -1,7 +1,9 @@
+using System;
 using Services;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utilities;
 
 namespace ShopScene
 {
@@ -10,6 +12,7 @@ namespace ShopScene
         [SerializeField] private ShopView view;
         [SerializeField] private ShopModel model;
         [SerializeField] private SkeletonGraphic skeletonAnimation;
+        [SerializeField] private ChangeSceneController changeSceneController;
 
 
         private DisplayShop _currentChoose;
@@ -70,6 +73,11 @@ namespace ShopScene
             };
         }
 
+        private void Start()
+        {
+            changeSceneController.Open();
+        }
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -95,12 +103,12 @@ namespace ShopScene
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                SceneManager.LoadScene(Constants.MainMenu);
+                changeSceneController.Close(() => SceneManager.LoadScene(Constants.MainMenu));
             }
 
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                SceneManager.LoadScene(Constants.GamePlay);
+                changeSceneController.Close(() => SceneManager.LoadScene(Constants.GamePlay));
             }
 
             if (Input.GetKeyDown(KeyCode.K))
