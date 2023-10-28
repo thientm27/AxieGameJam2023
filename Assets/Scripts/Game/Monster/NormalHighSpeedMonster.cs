@@ -25,6 +25,7 @@ public class NormalHighSpeedMonster : Monster
             {
                 SimplePool.Despawn(gameObject);
             };
+            StartCoroutine(DeathCoroutine());
             //goTransform.DOMoveY(goTransform.position.y - 0.2f, 3.0f).SetEase(Ease.Linear).OnComplete(() =>
             //{
 
@@ -34,6 +35,7 @@ public class NormalHighSpeedMonster : Monster
     private void Move()
     {
         var v = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
+        goTransform.position = new Vector2((UnityEngine.Random.Range(0, 2) == 0 ? v.x + 2 : -v.x - 2), 4);
         if(goTransform.position.x > 0)
         {
             v.x = -v.x;

@@ -10,7 +10,7 @@ public class StraightShotMonster : Monster
     public override void Init(Transform player)
     {
         base.Init(player);
-        HP = 2;
+        HP = 1;
         AttackRate = 0.5f;
         Move();
         colliderTf.enabled = true;
@@ -27,6 +27,7 @@ public class StraightShotMonster : Monster
             {
                 SimplePool.Despawn(gameObject);
             };
+            StartCoroutine(DeathCoroutine());
             //goTransform.DOMoveY(goTransform.position.y - 0.2f, 3.0f).SetEase(Ease.Linear).OnComplete(() =>
             //{
 

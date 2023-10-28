@@ -29,6 +29,7 @@ public class LazerMonster : Monster
             {
                 SimplePool.Despawn(gameObject);
             };
+            StartCoroutine(DeathCoroutine());
             //goTransform.DOMoveY(goTransform.position.y - 0.2f, 3.0f).SetEase(Ease.Linear).OnComplete(() =>
             //{
 

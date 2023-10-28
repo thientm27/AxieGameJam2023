@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     public Action OnHit;
     public Action OnMiss;
     public Action OnAttack;
+    public Action OnDeath;
     public bool IsStart { get => isStart; set => isStart = value; }
 
     // Cache
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour
     private bool canAttack = true;
     private bool isStart = false;
     private bool isDeath = false;
+    private bool pressDown = false;
     private Vector2 position;
     private float downSpeed = 2f;
     private AxieCharacter axieCharacter;
@@ -70,6 +72,14 @@ public class Player : MonoBehaviour
             SimplePool.Despawn(collision.gameObject);
             GotHit();
         }
+        if(collision.CompareTag(Constants.LavaTag))
+        {
+            if(pressDown == true)
+            {
+                Death();
+                OnDeath?.Invoke();
+            }
+        }
     }
     private void GotHit()
     {
@@ -104,6 +114,7 @@ public class Player : MonoBehaviour
         }
         if(goTransform.position.y <= minHeight)
         {
+            pressDown = false;
             OnMiss?.Invoke();
             downSpeed = defaultDownSpeed;
             isUp = true;
@@ -117,6 +128,7 @@ public class Player : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.DownArrow))
         {
+            pressDown = true;
             downSpeed = attackDownSpeed;
         }
         if(axieCharacter.IsDownOverTime)
@@ -131,6 +143,7 @@ public class Player : MonoBehaviour
         float timeMove = (maxHeight - goTransform.position.y) / (maxHeight - minHeight) * timeMoveUp;
         goTransform.DOMoveY(maxHeight, timeMove).SetEase(Ease.Linear).OnComplete(() =>
         {
+            pressDown = true;
             downSpeed = defaultDownSpeed;
             if (rocket != null)
             {

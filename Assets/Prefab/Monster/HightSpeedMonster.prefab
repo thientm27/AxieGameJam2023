@@ -51,7 +51,7 @@ MonoBehaviour:
   colliderTf: {fileID: 3936911888765648943}
   deathAnimn: defense/hit-die
   attackAnim: 
-  idleAnim: action/normal/idle
+  idleAnim: action/idle/normal
   player: {fileID: 0}
 --- !u!58 &3936911888765648943
 CircleCollider2D:

@@ -28,6 +28,7 @@ public class DragonMonster : Monster
                 DOTween.Kill(goTransform);
                 SimplePool.Despawn(gameObject);
             };
+            StartCoroutine(DeathCoroutine());
             //goTransform.DOMoveY(goTransform.position.y - 0.2f, 3.0f).SetEase(Ease.Linear).OnComplete(() =>
             //{
 

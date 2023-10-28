@@ -14,7 +14,8 @@ public class ThornyMonster : Monster
         Move();
         HP = 1;
         colliderTf.enabled = true;
-        thorn.SetActive(false);
+        if (thorn != null)
+            thorn.SetActive(false);
     }
     public override void GotHit()
     {
@@ -28,6 +29,7 @@ public class ThornyMonster : Monster
             {
                 SimplePool.Despawn(gameObject);
             };
+            StartCoroutine(DeathCoroutine());
             //goTransform.DOMoveY(goTransform.position.y - 0.2f, 3.0f).SetEase(Ease.Linear).OnComplete(() =>
             //{
 
@@ -43,12 +45,14 @@ public class ThornyMonster : Monster
         Vector3 temp = goTransform.position + new Vector3(UnityEngine.Random.Range(0, 2) == 0 ? 2 : -2, 0, 0);
         goTransform.DOMove(infPos + temp / 2 + Vector3.up * (UnityEngine.Random.Range(11f, 14.5f)), 2.0f).SetEase(Ease.OutCubic).OnComplete(() =>
         {
-            thorn.SetActive(true);
+            if (thorn != null)
+                thorn.SetActive(true);
             skeletonAnimation.AnimationState.SetAnimation(0, attackAnim, false);
             //skeletonAnimation.timeScale = 0.5f;
             goTransform.transform.DOMoveZ(0, 1f).OnComplete(() =>
             {
-                thorn.SetActive(false);
+                if(thorn != null)
+                    thorn.SetActive(false);
                 skeletonAnimation.timeScale = 1f;
                 skeletonAnimation.AnimationState.SetAnimation(0, idleAnim, true);
                 goTransform.DOMove(infPos + temp, 2.0f).SetEase(Ease.InCubic).OnComplete(() =>

@@ -1,5 +1,6 @@
 using Spine.Unity;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class Monster : MonoBehaviour
@@ -28,5 +29,10 @@ public class Monster : MonoBehaviour
     public virtual void Attack()
     {
 
+    }
+    public IEnumerator DeathCoroutine()
+    {
+        yield return new WaitForSeconds(1.5f);
+        SimplePool.Despawn(gameObject);
     }
 }

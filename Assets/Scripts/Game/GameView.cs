@@ -11,6 +11,8 @@ public class GameView : MonoBehaviour
     [SerializeField] private GameObject[] heartsIcon;
     [SerializeField] private CanvasGroup ingameCanvasGroup;
     [SerializeField] private CanvasGroup press;
+    [SerializeField] private RectTransform progress;
+    private Vector2 heighProgress = new Vector2 (-120, 110);
     public void SetSpeed(int speed)
     {
         speedText.text = speed.ToString();
@@ -29,6 +31,10 @@ public class GameView : MonoBehaviour
         {
             heartsIcon[i].SetActive(i < heart);
         }
+    }
+    public void SetProgress(float percent)
+    {
+        progress.anchoredPosition = new Vector2 (0, (heighProgress.y - heighProgress.x) * percent + heighProgress.x);
     }
     public void ViewUIIngame()
     {
