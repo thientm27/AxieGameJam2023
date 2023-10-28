@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     private const float timeMoveUp = 0.5f;
     private const float defaultDownSpeed = 2.0f;
     private const float attackDownSpeed = 100f;
-    [SerializeField] private SkeletonAnimation model;
+    [SerializeField] private Transform model;
     [SerializeField] private Transform goTransform;
     [SerializeField] private float maxHeight = 10f;
     [SerializeField] private float minHeight = -10f;
@@ -18,15 +18,17 @@ public class Player : MonoBehaviour
     [SerializeField] private RangeCheck rangeCheck;
     [SerializeField] private GameObject rocketPrefab;
     [SerializeField] private Transform RocketParent;
+    [SerializeField] private GameObject haoquang;
 
     // Action
     public Action OnHit;
-    public Action OnMiss;
+    public Action<int> OnMiss;
     public Action OnAttack;
     public Action OnDeath;
     public bool IsStart { get => isStart; set => isStart = value; }
 
     // Cache
+    private SkeletonAnimation skeletonAnimation;
     private bool canHit = true;
     private bool isUp = false;
     private bool canAttack = true;
@@ -41,13 +43,18 @@ public class Player : MonoBehaviour
     private Transform rocket;
     private void Awake()
     {
+        haoquang.SetActive(false);
         rangeCheck.OnHitMonster = HitMonster;
     }
     public void Initialized(AxieCharacter axie)
     {
         this.axieCharacter = axie;
-        attackAnim = axie.AttackAnim;
-        idleAnim = axie.IdleAnimn;
+        attackAnim = "attack/melee/tail-roll";
+        idleAnim = "action/idle/normal";
+        GameObject go = Instantiate(axie.SkeletonAnimation, Vector2.zero, Quaternion.identity);
+        go.transform.SetParent(model);
+        go.transform.localPosition = position;
+        skeletonAnimation = go.GetComponent<SkeletonAnimation>();
     }
     private void HitMonster()
     {
@@ -58,8 +65,8 @@ public class Player : MonoBehaviour
         canAttack = false;
         rangeCheck.CanAttack = false;
         Up();
-        model.AnimationState.SetAnimation(0, attackAnim, false);
-        model.timeScale = 3.0f;
+        skeletonAnimation.AnimationState.SetAnimation(0, attackAnim, false);
+        skeletonAnimation.timeScale = 3.0f;
         Logger.Debug("NNKKK 1");
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -114,8 +121,9 @@ public class Player : MonoBehaviour
         }
         if(goTransform.position.y <= minHeight)
         {
+            haoquang.SetActive(true);
             pressDown = false;
-            OnMiss?.Invoke();
+            OnMiss?.Invoke(axieCharacter.DescreaseSpeedWhenMiss == true ? 2 : 0);
             downSpeed = defaultDownSpeed;
             isUp = true;
             goTransform.DOMoveZ(0, 1.3f).OnComplete(() =>
@@ -131,18 +139,20 @@ public class Player : MonoBehaviour
             pressDown = true;
             downSpeed = attackDownSpeed;
         }
-        if(axieCharacter.IsDownOverTime)
+        if(axieCharacter.IsDownOverTime == false && downSpeed < attackDownSpeed - 1)
         {
-            position = goTransform.position;
-            position.y -= downSpeed * Time.deltaTime;
-            goTransform.position = position;
+            return;
         }
+        position = goTransform.position;
+        position.y -= downSpeed * Time.deltaTime;
+        goTransform.position = position;
     }
     private void Up()
     {
         float timeMove = (maxHeight - goTransform.position.y) / (maxHeight - minHeight) * timeMoveUp;
         goTransform.DOMoveY(maxHeight, timeMove).SetEase(Ease.Linear).OnComplete(() =>
         {
+            haoquang.SetActive(false);
             pressDown = true;
             downSpeed = defaultDownSpeed;
             if (rocket != null)
@@ -153,8 +163,8 @@ public class Player : MonoBehaviour
             isUp = false;
             canAttack = true;
             rangeCheck.CanAttack = true;
-            model.AnimationState.SetAnimation(0, idleAnim, true);
-            model.timeScale = 1.0f;
+            skeletonAnimation.AnimationState.SetAnimation(0, idleAnim, true);
+            skeletonAnimation.timeScale = 1.0f;
         });
     }
     public void Death()

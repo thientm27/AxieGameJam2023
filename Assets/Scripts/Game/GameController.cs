@@ -33,7 +33,9 @@ public class GameController : MonoBehaviour
     private float maxHeigh = 1000f;
     private void Awake()
     {
-        player.Initialized(model.AxieCharacters[0]);
+        var axie = model.AxieCharacters[5];
+        maxHeart = axie.MaxHP;
+        player.Initialized(axie);
         player.OnHit = PlayerGotHit;
         player.OnMiss = PlayerMissHit;
         player.OnDeath = () =>
@@ -124,10 +126,10 @@ public class GameController : MonoBehaviour
         combo -= 2;
         combo = combo < 0 ? 0 : combo;
     }
-    private void PlayerMissHit()
+    private void PlayerMissHit(int miss)
     {
-        speed -= 2;
-        heightLava += 2;
+        speed -= miss;
+        heightLava += miss;
     }
     private void PlayerAttack(int sp)
     {
