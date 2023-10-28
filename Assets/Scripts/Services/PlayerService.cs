@@ -20,6 +20,23 @@ namespace Services
         private const string PlayerSkinCount = "psc";
         private const string PlayerReviseCount = "prc";
 
+        // Player shop
+        private const string PlayerArmoryShop = "pas";
+        private const string PlayerAccessoryShop = "pas";
+        private const string UserCoinKey = "uck";
+
+        public int UserCoin { get; set; }
+        public List<int> ArmoryLevel { get; set; }
+        public List<int> AccessoryLevel { get; set; }
+        
+        public void SavePlayerData()
+        {
+             SaveList(PlayerArmoryShop,ArmoryLevel);
+             SaveList(PlayerAccessoryShop,AccessoryLevel);
+             PlayerPrefs.SetInt(UserCoinKey, UserCoin);
+        }
+        
+        
         // Player Selected
         private const string PlayerSelectedBall = "psb";
         private const string PlayerSelectedWing = "psw";
@@ -170,6 +187,9 @@ namespace Services
             SelectedHoop = PlayerPrefs.GetInt(PlayerSelectedHoop, 100);
             SelectedFlame = PlayerPrefs.GetInt(PlayerSelectedFlame, 200);
             NewItemList = new();
+            ArmoryLevel = GetList(PlayerArmoryShop, new List<int> { 1, 1, 1, 1 });
+            AccessoryLevel = GetList(PlayerAccessoryShop, new List<int> { 1, 1, 1, 1 });
+            UserCoin = PlayerPrefs.GetInt(UserCoinKey, 0);
         }
 
         public void AddNewItem(int id)
@@ -230,6 +250,8 @@ namespace Services
             LastScore = lastScore;
         }
 
+        
+        
         #region Ultils method
 
         private void SaveList<T>(string key, List<T> value)
