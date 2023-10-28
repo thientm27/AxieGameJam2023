@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Audio;
+using Random = UnityEngine.Random;
 
 namespace Services
 {
@@ -66,14 +67,22 @@ namespace Services
 
 
         // Play Music
-        public void PlayMusic()
+        public void PlayMusicMain()
         {
+            StopMusic();
             if (musicOn == true && musicVolume > 0.0f)
             {
-                music.PlayMusic("music");
+                music.PlayMusic("Menu");
             }
         }
-
+        public void PlayMusicGame()
+        {
+            StopMusic();
+            if (musicOn == true && musicVolume > 0.0f)
+            {
+                music.PlayMusic("InGame");
+            }
+        }
         // Fade Music
         public void FadeMusic(float time)
         {
@@ -100,7 +109,8 @@ namespace Services
         /// </summary>
         public void StopMusic()
         {
-            music.StopMusic("music");
+            music.StopMusic("Menu");
+            music.StopMusic("InGame");
         }
 
         /// <summary>
@@ -234,17 +244,112 @@ namespace Services
             }
             soundAudioSources[nameSound.ToString()].Play();
         }
+        
+        // Call method
+        public void HitMonster()
+        {
+            var rd = Random.Range(0, 4);
+            switch (rd)
+            {
+                case 0:
+                {
+                    PlaySound(SoundToPlay.monster_hit_0);
+                    break;
+                }
+                case 1:
+                {
+                    PlaySound(SoundToPlay.monster_hit_1);
+                    break;
+                }
+                case 2:
+                {
+                    PlaySound(SoundToPlay.monster_hit_2);
+                    break;
+                }
+                case 3:
+                {
+                    PlaySound(SoundToPlay.monster_hit_3);
+                    break;
+                }
+            }
+        }
+        public void Attack()
+        {
+            var rd = Random.Range(0, 3);
+            switch (rd)
+            {
+                case 0:
+                {
+                    PlaySound(SoundToPlay.attack1);
+                    break;
+                }
+                case 1:
+                {
+                    PlaySound(SoundToPlay.attack2);
+                    break;
+                }
+                case 2:
+                {
+                    PlaySound(SoundToPlay.attack3);
+                    break;
+                }
+             
+            }
+        }
+
+        public void GotHurt()
+        {
+            PlaySound(SoundToPlay.player_hurt);
+
+        }
+        public void Rocket()
+        {
+            PlaySound(SoundToPlay.rocket);
+
+        }
+        public void DoorClose()
+        {
+            PlaySound(SoundToPlay.door_close);
+
+        }
+        public void DoorOpen()
+        {
+            PlaySound(SoundToPlay.door_open);
+
+        }
+        public void FireBall()
+        {
+            PlaySound(SoundToPlay.fireball);
+
+        }
+        public void EndGame()
+        {
+            PlaySound(SoundToPlay.end_game);
+
+        }
+        public void Button()
+        {
+            PlaySound(SoundToPlay.button);
+
+        }
     }
 
     public enum SoundToPlay
     {
-        Button,
-        GameOver,
-        GotSkin,
-        HitTorus,
-        Lost,
-        PerfectScore,
-        Scored,
-        Tap
+        monster_hit_0,
+        monster_hit_1,
+        monster_hit_2,
+        monster_hit_3,
+        player_hurt,
+        rocket,
+        door_close,
+        door_open,
+        attack1,
+        attack2,
+        attack3,
+        fireball,
+        end_game,
+        life_up,
+        button,
     }
 }
