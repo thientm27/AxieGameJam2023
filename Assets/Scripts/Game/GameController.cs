@@ -16,6 +16,13 @@ public class GameController : MonoBehaviour
     // Monster
     [SerializeField] private GameObject[] monsters;
     [SerializeField] private Transform lava;
+    [SerializeField] private GameObject layer;
+    [SerializeField] private Transform bgParent;
+    private float offetTileBG = 4.7f;
+    private float startOffset = 9f;
+    private float currentOffset = 9.8f;
+    private float nextOffset = 9.8f;
+
     private int combo = 0;
     private int maxHeart = 3;
     private int currentHeart = 0;
@@ -104,6 +111,20 @@ public class GameController : MonoBehaviour
         }
         if (isStart == true)
         {
+            var p = bgParent.position;
+            p.y -= Time.deltaTime * speed;
+            currentOffset += Time.deltaTime * speed;
+            if(currentOffset >= nextOffset)
+            {
+                nextOffset += offetTileBG;
+                GameObject go = SimplePool.Spawn(layer, new Vector3(0, nextOffset), Quaternion.identity);
+                Transform tileTf = go.transform;
+                tileTf.localScale = Vector3.one * 2;
+                tileTf.SetParent(bgParent);
+                tileTf.localPosition = new Vector3(0, nextOffset);
+            }
+            bgParent.position = p;
+
             heightPlayer += Time.deltaTime * speed;
             if(startLava == true)
             {
