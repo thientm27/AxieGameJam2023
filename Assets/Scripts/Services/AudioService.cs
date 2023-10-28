@@ -12,11 +12,14 @@ namespace Services
         /// Action sound, sound volume change.
         /// </summary>
         public event Action<bool> OnSoundChanged;
+
         public event Action<float> OnSoundVolumeChanged;
+
         /// <summary>
         /// Action music, music volume change.
         /// </summary>
         public event Action<bool> OnMusicChanged;
+
         public event Action<float> OnMusicVolumeChanged;
 
         private bool soundOn;
@@ -75,6 +78,7 @@ namespace Services
                 music.PlayMusic("Menu");
             }
         }
+
         public void PlayMusicGame()
         {
             StopMusic();
@@ -83,6 +87,7 @@ namespace Services
                 music.PlayMusic("InGame");
             }
         }
+
         // Fade Music
         public void FadeMusic(float time)
         {
@@ -232,19 +237,20 @@ namespace Services
             get { return vibrateOn; }
             set { vibrateOn = value; }
         }
-        
-        
+
+
         // AUDIO PLAY
-        
+
         public void PlaySound(SoundToPlay nameSound)
         {
             if (!soundOn)
             {
                 return;
             }
+
             soundAudioSources[nameSound.ToString()].Play();
         }
-        
+
         // Call method
         public void HitMonster()
         {
@@ -273,6 +279,7 @@ namespace Services
                 }
             }
         }
+
         public void Attack()
         {
             var rd = Random.Range(0, 3);
@@ -293,54 +300,57 @@ namespace Services
                     PlaySound(SoundToPlay.attack3);
                     break;
                 }
-             
             }
         }
 
         public void GotHurt()
         {
             PlaySound(SoundToPlay.player_hurt);
-
         }
+
         public void Rocket()
         {
             PlaySound(SoundToPlay.rocket);
-
         }
+
         public void DoorClose()
         {
             PlaySound(SoundToPlay.door_close);
-
         }
+
         public void DoorOpen()
         {
             PlaySound(SoundToPlay.door_open);
-
         }
+
         public void FireBall()
         {
             PlaySound(SoundToPlay.fireball);
-
         }
+
         public void EndGame()
         {
             PlaySound(SoundToPlay.end_game);
-
         }
+
         public void Button()
         {
             PlaySound(SoundToPlay.button);
-
         }
+
         public void BuyItem()
         {
-            PlaySound(SoundToPlay.buy); 
-
+            PlaySound(SoundToPlay.buy);
         }
+
         public void Buff()
         {
-            PlaySound(SoundToPlay.buff); 
+            PlaySound(SoundToPlay.buff);
+        }
 
+        public void Laser()
+        {
+            PlaySound(SoundToPlay.laser);
         }
     }
 
@@ -362,6 +372,7 @@ namespace Services
         life_up,
         button,
         buy,
-        buff
+        buff,
+        laser
     }
 }
