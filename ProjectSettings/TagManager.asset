@@ -7,6 +7,7 @@ TagManager:
   - ' Services'
   - Services
   - Monster
+  - Bullet
   layers:
   - Default
   - TransparentFX

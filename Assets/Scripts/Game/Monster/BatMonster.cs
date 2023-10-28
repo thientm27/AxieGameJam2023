@@ -3,14 +3,15 @@ using Spine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
-public class StraightShotMonster : Monster
+public class BatMonster : Monster
 {
     [SerializeField] private GameObject bullet;
     private void Awake()
     {
-        HP = 2;
-        AttackRate = 0.5f;
+        HP = 1;
+        AttackRate = 0.2f;
         Move();
         skeletonAnimation.AnimationState.SetAnimation(0, idleAnim, true);
     }
@@ -45,13 +46,13 @@ public class StraightShotMonster : Monster
     }
     private void MoveAround()
     {
-        goTransform.DOMoveX(-goTransform.position.x, 6.0f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
-        goTransform.DOMoveY(goTransform.position.y + 2, 1.3f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+        goTransform.DOMoveX(-goTransform.position.x, 7.0f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+        goTransform.DOMoveY(goTransform.position.y + 0.5f, 1.3f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
     }
     private IEnumerator ShootCoroutine()
     {
-        yield return new WaitForSeconds(UnityEngine.Random.Range((float)(1 / AttackRate), (float)(1 / AttackRate + 1.0f)));
         StartCoroutine(Shoot());
+        yield return new WaitForSeconds(UnityEngine.Random.Range((float)(1 / AttackRate), (float)(1 / AttackRate + 1.0f)));
         StartCoroutine(ShootCoroutine());
     }
     private IEnumerator Shoot()
@@ -62,11 +63,19 @@ public class StraightShotMonster : Monster
             skeletonAnimation.AnimationState.SetAnimation(0, idleAnim, true);
         };
         yield return new WaitForSeconds(0.3f);
-        GameObject bl = SimplePool.Spawn(bullet, goTransform.position + Vector3.up * 1.0f, Quaternion.identity);
-        bl.transform.DOMoveY(20f, 2.5f).SetEase(Ease.Linear).OnComplete(() =>
+        for(int i = 0; i < 2; i++)
         {
-            SimplePool.Despawn(bl);
-            goTransform.DOPlay();
-        });
+            yield return new WaitForSeconds(0.3f);
+            GameObject bl = SimplePool.Spawn(bullet, goTransform.position + Vector3.up * 1.0f, Quaternion.identity);
+            Vector3 direction = player.position - bl.transform.position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            bl.transform.rotation = Quaternion.Euler(0f, 0f, angle + 180);
+
+            bl.transform.DOMove(player.position, 1.5f).SetEase(Ease.Linear).OnComplete(() =>
+            {
+                SimplePool.Despawn(bl);
+                goTransform.DOPlay();
+            });
+        }
     }
 }

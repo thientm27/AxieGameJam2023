@@ -27,6 +27,8 @@ public class NormalMonster : Monster
     }
     private void Move()
     {
+        var v = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
+        goTransform.position = new Vector3(UnityEngine.Random.Range(-v.x + 3, v.x - 3), -v.y - 2);
         Vector3 infPos = goTransform.position;
         Vector3 temp = goTransform.position + new Vector3(UnityEngine.Random.Range(0, 2) == 0 ? 2 : -2, 0, 0);
         goTransform.DOMove(infPos + temp / 2 + Vector3.up * (UnityEngine.Random.Range(11f, 14.5f)), 2.0f).SetEase(Ease.OutCubic).OnComplete(() =>
