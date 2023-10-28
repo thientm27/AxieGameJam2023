@@ -24,6 +24,7 @@ namespace Services
         private const string PlayerArmoryShop = "pas";
         private const string PlayerAccessoryShop = "pas";
         private const string UserCoinKey = "uck";
+        private const string LevelKey = "lvl";
 
         public int UserCoin { get; set; }
         public List<int> ArmoryLevel { get; set; }
@@ -35,7 +36,14 @@ namespace Services
              SaveList(PlayerAccessoryShop,AccessoryLevel);
              PlayerPrefs.SetInt(UserCoinKey, UserCoin);
         }
-        
+        public int GetLevel()
+        {
+            return PlayerPrefs.GetInt(LevelKey, 0);
+        }
+        public void SetLevel(int lvl)
+        {
+            PlayerPrefs.SetInt(LevelKey, lvl);
+        }
         
         // Player Selected
         private const string PlayerSelectedBall = "psb";

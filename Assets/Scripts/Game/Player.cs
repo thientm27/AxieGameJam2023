@@ -26,7 +26,8 @@ public class Player : MonoBehaviour
     public Action OnAttack;
     public Action OnDeath;
     public bool IsStart { get => isStart; set => isStart = value; }
-
+    public float Speed { get => speed; set => speed = value; }
+    public float DownSpeed { get => downSpeed; set => downSpeed = value; }
     // Cache
     private SkeletonAnimation skeletonAnimation;
     private bool canHit = true;

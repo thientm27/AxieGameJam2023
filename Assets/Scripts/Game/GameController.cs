@@ -1,8 +1,10 @@
 using DG.Tweening;
+using Services;
 using System;
 using System.Collections;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
@@ -31,25 +33,56 @@ public class GameController : MonoBehaviour
     private bool isEnd = false;
 
     private float maxHeigh = 1000f;
+    // Services
+    private GameServices gameServices;
+    private PlayerService playerService;
+
+    private int gold = 0;
     private void Awake()
     {
-        var axie = model.AxieCharacters[5];
+        if (GameObject.FindGameObjectWithTag(Constants.ServicesTag) == null)
+        {
+            SceneManager.LoadScene(Constants.EntryScene);
+            return;
+        }
+        else
+        {
+            GameObject gameServiceObject = GameObject.FindGameObjectWithTag(Constants.ServicesTag);
+            gameServices = gameServiceObject.GetComponent<GameServices>();
+            playerService = gameServices.GetService<PlayerService>();
+        }
+
+        var axie = model.AxieCharacters[UnityEngine.Random.Range(0, playerService.GetLevel() + 1)];
         maxHeart = axie.MaxHP;
+        // From shop
+        maxHeart += playerService.ArmoryLevel[0] - 1;
+        player.Speed *= (playerService.ArmoryLevel[2] * 0.2f + 1) - 0.2f;
+        speedMax += playerService.ArmoryLevel[3] * 2 - 2;
+
+        player.DownSpeed -= playerService.AccessoryLevel[2] * 0.2f + 0.2f;
+
         player.Initialized(axie);
         player.OnHit = PlayerGotHit;
         player.OnMiss = PlayerMissHit;
-        player.OnDeath = () =>
-        {
-            isEnd = true;
-            StopAllCoroutines();
-            DOTween.KillAll();
-        };
+        player.OnDeath = Lose;
         pressImg.DOFillAmount(1, 0.5f).SetEase(Ease.OutCirc).SetLoops(-1, LoopType.Yoyo);
         view.SetCombo(combo);
         currentHeart = maxHeart;
         view.SetHeart(maxHeart, currentHeart);
         lavaGO = lava.gameObject;
         colliderLava = lava.GetComponent<Collider2D>();
+
+        maxHeigh += maxHeigh * 0.3f * playerService.GetLevel();
+        speedLava *= (playerService.GetLevel() * 0.5f + 1);
+    }
+    private void Lose()
+    {
+        isEnd = true;
+        StopAllCoroutines();
+        DOTween.KillAll();
+
+        playerService.UserCoin += gold;
+        playerService.SavePlayerData();
     }
     private void Update()
     {
@@ -98,7 +131,9 @@ public class GameController : MonoBehaviour
     }
     private void Win()
     {
-
+        playerService.UserCoin += gold;
+        playerService.SavePlayerData();
+        playerService.SetLevel(playerService.GetLevel() + 1);
     }
     private IEnumerator StartLava()
     {
@@ -133,15 +168,18 @@ public class GameController : MonoBehaviour
     }
     private void PlayerAttack(int sp)
     {
+        gold += 1;
         combo += 1;
         if(combo >= 10)
         {
             speed += 10;
             combo = 0;
             speedLava += 5;
+            speed += playerService.AccessoryLevel[3] * 2 - 2;
         }
         view.SetCombo(combo);
         speed += sp;
+        speed += playerService.AccessoryLevel[1];
         view.SetSpeed(speed);
     }
     private IEnumerator SpawnNormal(float timeSpawn, int numberSpawnPerTime, int monster = 0)
