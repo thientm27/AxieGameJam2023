@@ -1,6 +1,5 @@
-using System;
-using DG.DemiEditor;
 using Services;
+using Spine.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,12 +9,15 @@ namespace ShopScene
     {
         [SerializeField] private ShopView view;
         [SerializeField] private ShopModel model;
+        [SerializeField] private SkeletonGraphic skeletonAnimation;
 
 
         private DisplayShop _currentChoose;
         private int _index;
         private PlayerService _playerService;
 
+        private const string IdleAnim = "action/idle/normal";
+        private const string BuyAnim = "activity/evolve";
 
         private void Awake()
         {
@@ -57,6 +59,15 @@ namespace ShopScene
             // Display first shop
             view.ChangeTab(_currentChoose);
             view.SetUserWallet(_playerService.UserCoin);
+
+            // Init spine
+            skeletonAnimation.AnimationState.SetAnimation(0, IdleAnim,
+                true);
+            skeletonAnimation.AnimationState.Complete += trackEntry =>
+            {
+                skeletonAnimation.AnimationState.SetAnimation(0, IdleAnim,
+                    true);
+            };
         }
 
         private void Update()
@@ -90,13 +101,12 @@ namespace ShopScene
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 SceneManager.LoadScene(Constants.GamePlay);
-            }     
+            }
+
             if (Input.GetKeyDown(KeyCode.K))
             {
-
                 _playerService.UserCoin += 100;
                 view.SetUserWallet(_playerService.UserCoin);
-
             }
         }
 
@@ -139,7 +149,7 @@ namespace ShopScene
             {
                 case DisplayShop.Armor:
                     priceToBuy = model.GetPriceAmory(_index, _playerService.ArmoryLevel[_index]);
-                    if (priceToBuy <= _playerService.UserCoin) // enough monney
+                    if (priceToBuy <= _playerService.UserCoin) // enough money
                     {
                         _playerService.UserCoin -= priceToBuy;
                         _playerService.ArmoryLevel[_index]++;
@@ -147,6 +157,7 @@ namespace ShopScene
                         view.contentShops[0].UpdateNewValue(_index,
                             _playerService.ArmoryLevel[_index],
                             model.GetPriceAmory(_index, _playerService.ArmoryLevel[_index]));
+                        skeletonAnimation.AnimationState.SetAnimation(0, BuyAnim, false);
                     }
 
                     break;
@@ -160,6 +171,7 @@ namespace ShopScene
                         view.contentShops[1].UpdateNewValue(_index,
                             _playerService.AccessoryLevel[_index],
                             model.GetPriceAmory(_index, _playerService.AccessoryLevel[_index]));
+                        skeletonAnimation.AnimationState.SetAnimation(0, BuyAnim, false);
                     }
 
                     break;
