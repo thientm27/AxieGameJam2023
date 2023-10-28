@@ -44,6 +44,26 @@ namespace Services
         {
             PlayerPrefs.SetInt(LevelKey, lvl);
         }
+        private const string RecordGoldKey = "rcg";
+        private const string RecordDistanceKey = "rcd";
+        public int GetRecordGold()
+        {
+            return PlayerPrefs.GetInt(RecordGoldKey, 0);
+        }
+        public void SetRecordGold(int gold)
+        {
+            if(PlayerPrefs.GetInt(RecordGoldKey, 0) < gold)
+                PlayerPrefs.SetInt(RecordGoldKey, gold);
+        }
+        public int GetRecordDistance()
+        {
+            return PlayerPrefs.GetInt(RecordDistanceKey, 0);
+        }
+        public void SetReCordDistance(int distance)
+        {
+            if(PlayerPrefs.GetInt(RecordDistanceKey, 0) < distance)
+                PlayerPrefs.SetInt(RecordDistanceKey, distance);
+        }
         
         // Player Selected
         private const string PlayerSelectedBall = "psb";

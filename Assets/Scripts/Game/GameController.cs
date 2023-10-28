@@ -83,10 +83,25 @@ public class GameController : MonoBehaviour
 
         playerService.UserCoin += gold;
         playerService.SavePlayerData();
+
+        view.OpenLose(true, playerService.GetLevel(), playerService.UserCoin, gold, playerService.GetRecordGold(), (int)heightPlayer, playerService.GetRecordDistance());
+        playerService.SetRecordGold(gold);
+        playerService.SetReCordDistance((int)heightPlayer);
     }
     private void Update()
     {
-        if (isEnd == true) return;
+        if (isEnd == true)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                SceneManager.LoadScene(Constants.GamePlay);
+            }
+            else if(Input.GetKeyDown(KeyCode.Space))
+            {
+                SceneManager.LoadScene(Constants.ShopScene);
+            }
+            return;
+        }
         if (isStart == true)
         {
             heightPlayer += Time.deltaTime * speed;
@@ -134,6 +149,7 @@ public class GameController : MonoBehaviour
         playerService.UserCoin += gold;
         playerService.SavePlayerData();
         playerService.SetLevel(playerService.GetLevel() + 1);
+        view.OpenLose(false, playerService.GetLevel(), playerService.UserCoin, gold, playerService.GetRecordGold(), (int)heightPlayer, playerService.GetRecordDistance());
     }
     private IEnumerator StartLava()
     {
@@ -157,6 +173,7 @@ public class GameController : MonoBehaviour
         {
             player.Death();
             isEnd = true;
+            Lose();
         }
         combo -= 2;
         combo = combo < 0 ? 0 : combo;
