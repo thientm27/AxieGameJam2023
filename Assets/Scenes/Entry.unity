@@ -407,9 +407,6 @@ MonoBehaviour:
   - Name: attack3
     AudioClip: {fileID: 8300000, guid: 190cd6e303d089848bf34b5401a5622e, type: 3}
     Volume: 1
-  - Name: rocket
-    AudioClip: {fileID: 8300000, guid: 52d834597bcb5d5408ec66c6990a3674, type: 3}
-    Volume: 1
   - Name: fireball
     AudioClip: {fileID: 8300000, guid: 86b013cdc8f204f45993182fd2a50814, type: 3}
     Volume: 1
@@ -419,8 +416,14 @@ MonoBehaviour:
   - Name: life_up
     AudioClip: {fileID: 8300000, guid: e89cd63139caa67468c1bc8df28d4753, type: 3}
     Volume: 1
+  - Name: buy
+    AudioClip: {fileID: 8300000, guid: 26e82aaed147ca443b1c2544befd4b67, type: 3}
+    Volume: 1
   - Name: button
     AudioClip: {fileID: 8300000, guid: c1049e34165dec94ba76946f8f13d1d7, type: 3}
+    Volume: 1
+  - Name: buff
+    AudioClip: {fileID: 8300000, guid: 65803780027777845b8421128f199315, type: 3}
     Volume: 1
   music: {fileID: 745272479}
   musicObject: {fileID: 745272477}

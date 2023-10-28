@@ -18,6 +18,7 @@ namespace ShopScene
         private DisplayShop _currentChoose;
         private int _index;
         private PlayerService _playerService;
+        private AudioService _audioService;
 
         private const string IdleAnim = "action/idle/normal";
         private const string BuyAnim = "activity/evolve";
@@ -29,6 +30,7 @@ namespace ShopScene
             {
                 var services = GameObject.FindGameObjectWithTag(Constants.ServicesTag).GetComponent<GameServices>();
                 _playerService = services.GetService<PlayerService>();
+                _audioService = services.GetService<AudioService>();
             }
             else
             {
@@ -76,6 +78,7 @@ namespace ShopScene
         private void Start()
         {
             changeSceneController.Open();
+            _audioService.PlayMusicMain();
         }
 
         private void Update()
@@ -120,6 +123,8 @@ namespace ShopScene
 
         private void SwitchTab()
         {
+            _audioService.Button();
+
             _index = 0;
             view.contentShops[0].SetIndicator(_index);
             view.contentShops[1].SetIndicator(_index);
@@ -138,6 +143,8 @@ namespace ShopScene
 
         private void HandleSelector(bool isDown)
         {
+            _audioService.Button();
+
             _index = isDown ? _index == 3 ? 0 : _index + 1 : _index == 0 ? 3 : _index - 1;
             switch (_currentChoose)
             {
@@ -159,6 +166,8 @@ namespace ShopScene
                     priceToBuy = model.GetPriceAmory(_index, _playerService.ArmoryLevel[_index]);
                     if (priceToBuy <= _playerService.UserCoin) // enough money
                     {
+                        _audioService.BuyItem();
+
                         _playerService.UserCoin -= priceToBuy;
                         _playerService.ArmoryLevel[_index]++;
                         _playerService.SavePlayerData();
@@ -173,6 +182,7 @@ namespace ShopScene
                     priceToBuy = model.GetPriceAccessory(_index, _playerService.AccessoryLevel[_index]);
                     if (priceToBuy <= _playerService.UserCoin)
                     {
+                        _audioService.BuyItem();
                         _playerService.UserCoin -= priceToBuy;
                         _playerService.AccessoryLevel[_index]++;
                         _playerService.SavePlayerData();

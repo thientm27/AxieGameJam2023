@@ -332,6 +332,16 @@ namespace Services
             PlaySound(SoundToPlay.button);
 
         }
+        public void BuyItem()
+        {
+            PlaySound(SoundToPlay.buy); 
+
+        }
+        public void Buff()
+        {
+            PlaySound(SoundToPlay.buff); 
+
+        }
     }
 
     public enum SoundToPlay
@@ -351,5 +361,7 @@ namespace Services
         end_game,
         life_up,
         button,
+        buy,
+        buff
     }
 }
