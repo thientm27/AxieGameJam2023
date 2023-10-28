@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class NormalMonster : Monster
 {
-    private void Awake()
+    public override void Init(Transform player)
     {
+        base.Init(player);
         HP = 1;
         Move();
+        colliderTf.enabled = true;
     }
     public override void GotHit()
     {
         HP -= 1;
         if(HP <= 0)
         {
+            OnDeath?.Invoke(Speed);
+            colliderTf.enabled = false;
             skeletonAnimation.AnimationState.SetAnimation(0, deathAnimn, false).Complete += (TrackEntry v) =>
             {
                 DOTween.Kill(goTransform);

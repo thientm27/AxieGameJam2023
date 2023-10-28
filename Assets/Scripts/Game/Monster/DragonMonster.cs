@@ -8,18 +8,21 @@ public class DragonMonster : Monster
     [SerializeField] private GameObject bullet;
     [SerializeField] private Transform shootTf;
     [SerializeField] private Transform model;
-    private void Awake()
+    public override void Init(Transform player)
     {
+        base.Init(player);
         HP = 1;
         AttackRate = 0.15f;
         Move();
-        skeletonAnimation.AnimationState.SetAnimation(0, idleAnim, true);
+        colliderTf.enabled = true;
     }
     public override void GotHit()
     {
         HP -= 1;
         if (HP <= 0)
         {
+            OnDeath?.Invoke(Speed);
+            colliderTf.enabled = false;
             skeletonAnimation.AnimationState.SetAnimation(0, deathAnimn, false).Complete += (TrackEntry v) =>
             {
                 DOTween.Kill(goTransform);

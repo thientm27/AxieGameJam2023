@@ -7,8 +7,9 @@ using UnityEngine;
 public class ThornyMonster : Monster
 {
     [SerializeField] private GameObject thorn;
-    private void Awake()
+    public override void Init(Transform player)
     {
+        base.Init(player);
         AttackRate = 0.5f;
         Move();
         HP = 1;
@@ -20,6 +21,7 @@ public class ThornyMonster : Monster
         HP -= 1;
         if (HP <= 0)
         {
+            OnDeath?.Invoke(Speed);
             DOTween.Kill(goTransform);
             colliderTf.enabled = false;
             skeletonAnimation.AnimationState.SetAnimation(0, deathAnimn, false).Complete += (TrackEntry v) =>

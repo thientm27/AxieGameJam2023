@@ -6,8 +6,10 @@ using UnityEngine;
 public class RangeCheck : MonoBehaviour
 {
     public Action OnHitMonster;
+    public bool CanAttack { get; set; }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(CanAttack == false) return;
         if(collision.CompareTag(Constants.MonsterTag))
         {
             collision.GetComponent<Monster>().GotHit();

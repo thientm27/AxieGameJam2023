@@ -3,23 +3,25 @@ using Spine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class BatMonster : Monster
 {
     [SerializeField] private GameObject bullet;
-    private void Awake()
+    public override void Init(Transform player)
     {
+        base.Init(player);
         HP = 1;
         AttackRate = 0.2f;
         Move();
-        skeletonAnimation.AnimationState.SetAnimation(0, idleAnim, true);
+        colliderTf.enabled = true;
     }
     public override void GotHit()
     {
         HP -= 1;
         if (HP <= 0)
         {
+            OnDeath?.Invoke(Speed);
+            colliderTf.enabled = false;
             DOTween.Kill(goTransform);
             skeletonAnimation.AnimationState.SetAnimation(0, deathAnimn, false).Complete += (TrackEntry v) =>
             {
