@@ -58,13 +58,14 @@ public class LazerMonster : Monster
     {
         skeletonAnimation.AnimationState.SetAnimation(0, attackAnim, false).Complete += (TrackEntry x) =>
         {
-            thorn.SetActive(false);
-            goTransform.DOMoveY(-v.y - 3.0f, 3.0f).SetEase(Ease.Linear).OnComplete(() =>
-            {
-                SimplePool.Despawn(gameObject);
-            });
         };
-        yield return new WaitForSeconds(0.3f); 
+        yield return new WaitForSeconds(0.65f);
         thorn.SetActive(true);
+        yield return new WaitForSeconds(1.0f);
+        thorn.SetActive(false);
+        goTransform.DOMoveY(-v.y - 3.0f, 3.0f).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            SimplePool.Despawn(gameObject);
+        });
     }
 }
