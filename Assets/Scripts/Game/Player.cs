@@ -7,7 +7,7 @@ using System;
 public class Player : MonoBehaviour
 {
     private const float timeMoveUp = 0.5f;
-    private const float defaultDownSpeed = 2.0f;
+    private const float defaultDownSpeed = 4.0f;
     private const float attackDownSpeed = 100f;
     [SerializeField] private Transform model;
     [SerializeField] private Transform goTransform;
