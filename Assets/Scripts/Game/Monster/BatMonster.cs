@@ -72,11 +72,13 @@ public class BatMonster : Monster
             yield return new WaitForSeconds(0.3f);
             audioService.FireBall();
             GameObject bl = SimplePool.Spawn(bullet, goTransform.position + Vector3.up * 1.0f, Quaternion.identity);
-            Vector3 direction = player.position - bl.transform.position;
+            var blTf = bl.transform;
+            blTf.position = goTransform.position + Vector3.up * 1.0f;
+            Vector3 direction = player.position - blTf.position;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            bl.transform.rotation = Quaternion.Euler(0f, 0f, angle + 180);
+            blTf.rotation = Quaternion.Euler(0f, 0f, angle + 180);
 
-            bl.transform.DOMove(player.position, 1.5f).SetEase(Ease.Linear).OnComplete(() =>
+            blTf.DOMove(player.position, 1.5f).SetEase(Ease.Linear).OnComplete(() =>
             {
                 SimplePool.Despawn(bl);
                 goTransform.DOPlay();

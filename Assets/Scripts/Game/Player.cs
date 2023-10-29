@@ -196,8 +196,12 @@ public class Player : MonoBehaviour
         GameObject go = SimplePool.Spawn(rocketPrefab, RocketParent.position, Quaternion.identity);
         Transform goTf = go.transform;
         rocket = goTf;
-        goTf.SetParent(RocketParent);
-        goTf.localPosition = Vector2.zero;
+        //goTf.SetParent(RocketParent);
+        float timeMove = (maxHeight - goTransform.position.y) / (maxHeight - minHeight) * timeMoveUp;
+        goTf.position = RocketParent.position;
+
+        goTf.DOMoveY(maxHeight - RocketParent.localPosition.y, timeMove).SetEase(Ease.Linear);
+
         audioService.Rocket();
         goTf.DOMoveZ(0, 1.0f).OnComplete(() =>
         {

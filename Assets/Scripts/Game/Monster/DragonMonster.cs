@@ -72,12 +72,16 @@ public class DragonMonster : Monster
             yield return new WaitForSeconds(0.8f);
             audioService.FireBall();
             GameObject bl = SimplePool.Spawn(bullet, shootTf.position, Quaternion.identity);
+            var blTf = bl.transform;
+            blTf.position = shootTf.position;
+            blTf.rotation = Quaternion.Euler(0f, 0f, (goTransform.position.x > 0 ? 180 : 0));
 
-            bl.transform.rotation = Quaternion.Euler(0f, 0f, (goTransform.position.x > 0 ? 180 : 0));
-
-            bl.transform.DOMoveX((goTransform.position.x > 0 ? - 25 : 25), 15f).SetEase(Ease.Linear).OnComplete(() =>
+            blTf.DOMoveX((goTransform.position.x > 0 ? - 25 : 25), 15f).SetEase(Ease.Linear).OnComplete(() =>
             {
-                SimplePool.Despawn(bl);
+                blTf.DOMoveX((goTransform.position.x > 0 ? -25 : 25), 3f).SetEase(Ease.Linear).OnComplete(() =>
+                {
+                    SimplePool.Despawn(bl);
+                });
             });
         }
     }
