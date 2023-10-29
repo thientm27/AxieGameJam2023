@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Services;
 using Spine;
 using System.Collections;
 using UnityEngine;
@@ -8,9 +9,9 @@ public class DragonMonster : Monster
     [SerializeField] private GameObject bullet;
     [SerializeField] private Transform shootTf;
     [SerializeField] private Transform model;
-    public override void Init(Transform player)
+    public override void Init(Transform player, AudioService audioService)
     {
-        base.Init(player);
+        base.Init(player, audioService);
         HP = 1;
         AttackRate = 0.15f;
         Move();
@@ -69,6 +70,7 @@ public class DragonMonster : Monster
                 skeletonAnimation.AnimationState.SetAnimation(0, idleAnim, true);
             };
             yield return new WaitForSeconds(0.8f);
+            audioService.FireBall();
             GameObject bl = SimplePool.Spawn(bullet, shootTf.position, Quaternion.identity);
 
             bl.transform.rotation = Quaternion.Euler(0f, 0f, (goTransform.position.x > 0 ? 180 : 0));

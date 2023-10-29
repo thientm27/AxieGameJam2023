@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Services;
 using Spine;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,9 +8,9 @@ using UnityEngine;
 public class StraightShotMonster : Monster
 {
     [SerializeField] private GameObject bullet;
-    public override void Init(Transform player)
+    public override void Init(Transform player, AudioService audioService)
     {
-        base.Init(player);
+        base.Init(player, audioService);
         HP = 1;
         AttackRate = 0.5f;
         Move();
@@ -66,6 +67,7 @@ public class StraightShotMonster : Monster
             skeletonAnimation.AnimationState.SetAnimation(0, idleAnim, true);
         };
         yield return new WaitForSeconds(0.3f);
+        audioService.FireBall();
         GameObject bl = SimplePool.Spawn(bullet, goTransform.position + Vector3.up * 1.0f, Quaternion.identity);
         bl.transform.DOMoveY(20f, 2.5f).SetEase(Ease.Linear).OnComplete(() =>
         {

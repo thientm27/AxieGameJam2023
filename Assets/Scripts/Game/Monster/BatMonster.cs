@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Services;
 using Spine;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,9 +8,9 @@ using UnityEngine;
 public class BatMonster : Monster
 {
     [SerializeField] private GameObject bullet;
-    public override void Init(Transform player)
+    public override void Init(Transform player, AudioService audioService)
     {
-        base.Init(player);
+        base.Init(player, audioService);
         HP = 1;
         AttackRate = 0.2f;
         Move();
@@ -69,6 +70,7 @@ public class BatMonster : Monster
         for(int i = 0; i < 2; i++)
         {
             yield return new WaitForSeconds(0.3f);
+            audioService.FireBall();
             GameObject bl = SimplePool.Spawn(bullet, goTransform.position + Vector3.up * 1.0f, Quaternion.identity);
             Vector3 direction = player.position - bl.transform.position;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

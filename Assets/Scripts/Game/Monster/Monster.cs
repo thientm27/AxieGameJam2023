@@ -1,3 +1,4 @@
+using Services;
 using Spine.Unity;
 using System;
 using System.Collections;
@@ -16,9 +17,11 @@ public class Monster : MonoBehaviour
     public float AttackRate { get; set; }
     public Transform player;
     public int Speed { get; set; }
-    public virtual void Init(Transform player)
+    protected AudioService audioService;
+    public virtual void Init(Transform player, AudioService audioService)
     {
         this.player = player;
+        this.audioService = audioService;
         skeletonAnimation.AnimationState.SetAnimation(0, idleAnim, true);
         Speed = 1;
     }

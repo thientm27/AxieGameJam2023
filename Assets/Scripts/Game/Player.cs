@@ -4,6 +4,7 @@ using Spine.Unity;
 using DG.Tweening;
 using System;
 using System.Collections;
+using Services;
 
 public class Player : MonoBehaviour
 {
@@ -45,6 +46,7 @@ public class Player : MonoBehaviour
     private string attackAnim = "";
     private string idleAnim = "";
     private Transform rocket;
+    private AudioService audioService;
     private void Awake()
     {
         haoquang.SetActive(false);
@@ -60,7 +62,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         SimplePool.Despawn(go);
     }
-    public void Initialized(AxieCharacter axie)
+    public void Initialized(AxieCharacter axie, AudioService audioService)
     {
         this.axieCharacter = axie;
         attackAnim = "attack/melee/tail-roll";
@@ -69,6 +71,7 @@ public class Player : MonoBehaviour
         go.transform.SetParent(model);
         go.transform.localPosition = position;
         skeletonAnimation = go.GetComponent<SkeletonAnimation>();
+        this.audioService = audioService;
     }
     private void HitMonster()
     {
@@ -82,6 +85,7 @@ public class Player : MonoBehaviour
         SpawnEf();
         skeletonAnimation.AnimationState.SetAnimation(0, attackAnim, false);
         skeletonAnimation.timeScale = 3.0f;
+        audioService.HitMonster();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -111,6 +115,7 @@ public class Player : MonoBehaviour
         }
         else
         {
+            audioService.GotHurt();
             OnHit?.Invoke();
         }
     }
@@ -150,6 +155,7 @@ public class Player : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.DownArrow))
         {
+            audioService.Attack();
             pressDown = true;
             downSpeed = attackDownSpeed;
         }
@@ -192,6 +198,7 @@ public class Player : MonoBehaviour
         rocket = goTf;
         goTf.SetParent(RocketParent);
         goTf.localPosition = Vector2.zero;
+        audioService.Rocket();
         goTf.DOMoveZ(0, 1.0f).OnComplete(() =>
         {
             goTf.SetParent(null);
