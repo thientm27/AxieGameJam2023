@@ -111,7 +111,7 @@ namespace Entry
 				yield return null;
 				timer += Time.deltaTime;
 			}
-			SceneManager.LoadScene(Constants.ShopScene);
+			SceneManager.LoadScene(Constants.MainMenu);
 		}
 		private void OnFetchSuccess()
 		{

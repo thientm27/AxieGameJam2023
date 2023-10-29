@@ -167,9 +167,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95377554f3aaea44c9702fa398531e0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loading: {fileID: 0}
+  loading: {fileID: 705537204}
   loadingTxt: {fileID: 1697259454}
   changeSceneController: {fileID: 646672832}
+  buttons:
+  - {fileID: 8414918052892051690}
+  - {fileID: 8828073930142597032}
+  - {fileID: 1012451569315848868}
 --- !u!1 &212749839
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,7 +420,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &705537205
 RectTransform:
   m_ObjectHideFlags: 0
@@ -662,7 +666,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Loading
+  m_text: 'Loading...
 
 '
   m_isRightToLeft: 0
@@ -698,8 +702,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -958,7 +962,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7725090564101372131, guid: 84e44ebfcaedc694cabbdb7cd05fdf06, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

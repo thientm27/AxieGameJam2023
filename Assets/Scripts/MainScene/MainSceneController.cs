@@ -46,8 +46,11 @@ public class MainSceneController : MonoBehaviour
     {
         if (_isLoad&&Input.anyKey)
         {
+            loading.SetActive(false);
             _isLoad = false;
             _isFinishLoad = true;
+            buttons[_currentSelect].transform.DOScale(Vector3.one * 1.2f, 0.25f);
+            return;
         }
 
         if (!_isFinishLoad)
@@ -64,13 +67,40 @@ public class MainSceneController : MonoBehaviour
             HandleSelector(false);
         }
 
+        
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+        {
+            HandleSelect();
+        }
+    }
+
+    private void HandleSelect()
+    {
+        if (_currentSelect == 0)
+        {
+            changeSceneController.Close(() =>
+            {
+                SceneManager.LoadScene(Constants.GamePlay);
+            });
+        }
+        if (_currentSelect == 1)
+        {
+            changeSceneController.Close(() =>
+            {
+                SceneManager.LoadScene(Constants.ShopScene);
+            });
+        }
+        if (_currentSelect == 2)
+        {
+            changeSceneController.Close(Application.Quit);
+        }
     }
 
     private void HandleSelector(bool isRight)
     {
         _audioService.Button();
         buttons[_currentSelect].transform.DOScale(Vector3.one, 0.25f);
-        _currentSelect = isRight ? _currentSelect == 2 ? 0 : _currentSelect + 1 : _currentSelect == 0 ? 3 : _currentSelect - 1;
+        _currentSelect = isRight ? _currentSelect == 2 ? 0 : _currentSelect + 1 : _currentSelect == 0 ? 2 : _currentSelect - 1;
         buttons[_currentSelect].transform.DOScale(Vector3.one * 1.2f, 0.25f);
         
     }
@@ -78,8 +108,8 @@ public class MainSceneController : MonoBehaviour
     {
         changeSceneController.Open();
         await Task.Delay(3000);
-        loading.SetActive(false);
         loadingTxt.text = "Press any key to continue...";
         _isLoad = true;
+        _audioService.PlayMusicMain();
     }
 }
