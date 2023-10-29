@@ -182,10 +182,10 @@ public class GameController : MonoBehaviour
             view.ViewUIIngame();
             player.IsStart = true;
             view.SetSpeed(speed);
-            StartCoroutine(SpawnNormal(1, 3));
-            StartCoroutine(SpawnThorn(3, 1));
-            StartCoroutine(SpawnHigh(6, 1));
-            StartCoroutine(SpawnStraight(6, 1));
+            StartCoroutine(SpawnNormal(2, 2));
+            StartCoroutine(SpawnThorn(10, 1));
+            StartCoroutine(SpawnHigh(10, 1));
+            StartCoroutine(SpawnStraight(10, 1));
             StartCoroutine(SpawnDragon(10, 1));
             StartCoroutine(SpawnBat(10, 1));
             StartCoroutine(SpawnLaze(15, 1));
