@@ -3,6 +3,7 @@ using Spine;
 using Spine.Unity;
 using DG.Tweening;
 using System;
+using System.Collections;
 
 public class Player : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject rocketPrefab;
     [SerializeField] private Transform RocketParent;
     [SerializeField] private GameObject haoquang;
+    [SerializeField] private GameObject eft;
+    [SerializeField] private Transform efTF;
 
     // Action
     public Action OnHit;
@@ -47,6 +50,16 @@ public class Player : MonoBehaviour
         haoquang.SetActive(false);
         rangeCheck.OnHitMonster = HitMonster;
     }
+    private void SpawnEf()
+    {
+        GameObject go = SimplePool.Spawn(eft, efTF.position, Quaternion.identity);
+        StartCoroutine(DelayDespawnEf(go));
+    }
+    private IEnumerator DelayDespawnEf(GameObject go)
+    {
+        yield return new WaitForSeconds(1.5f);
+        SimplePool.Despawn(go);
+    }
     public void Initialized(AxieCharacter axie)
     {
         this.axieCharacter = axie;
@@ -66,9 +79,9 @@ public class Player : MonoBehaviour
         canAttack = false;
         rangeCheck.CanAttack = false;
         Up();
+        SpawnEf();
         skeletonAnimation.AnimationState.SetAnimation(0, attackAnim, false);
         skeletonAnimation.timeScale = 3.0f;
-        Logger.Debug("NNKKK 1");
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
