@@ -8,11 +8,15 @@ public static class Constants
 	// Tags
 	public const string ServicesTag = "Services";
 	public const string ParamsTag   = "Params";
+	public const string MonsterTag = "Monster";
+	public const string BulletTag = "Bullet";
+	public const string LavaTag = "Lava";
 
 	// Scenes
 	public const string EntryScene = "Scenes/Entry";
 	public const string MainMenu = "Scenes/MainScene/MainScene";
-	public const string GamePlay = "Scenes/GamePlay/GamePlay";
+	public const string GamePlay = "Scenes/Gameplay";
+	public const string ShopScene = "Scenes/ShopScene/ShopScene";
 
 	// Popups
 }
