@@ -20,6 +20,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject layer;
     [SerializeField] private Transform bgParent;
     [SerializeField] private ChangeSceneController changeScene;
+    [SerializeField] private Transform hurt;
+
+
     private float offetTileBG = 4.7f;
     private float startOffset = 9f;
     private float currentOffset = 9.8f;
@@ -182,7 +185,7 @@ public class GameController : MonoBehaviour
             view.ViewUIIngame();
             player.IsStart = true;
             view.SetSpeed(speed);
-            StartCoroutine(SpawnNormal(2, 2));
+            StartCoroutine(SpawnNormal(2, 3));
             StartCoroutine(SpawnThorn(10, 1));
             StartCoroutine(SpawnHigh(15, 1));
             StartCoroutine(SpawnStraight(20, 1));
@@ -219,6 +222,7 @@ public class GameController : MonoBehaviour
     {
         currentHeart -= 1;
         view.SetHeart(maxHeart, currentHeart);
+        ShowHurt();
         if(currentHeart <= 0)
         {
             player.Death();
@@ -342,5 +346,14 @@ public class GameController : MonoBehaviour
             ms.OnDeath = PlayerAttack;
         }
         StartCoroutine(SpawnLaze(timeSpawn, numberSpawnPerTime, monster));
+    }
+    public void ShowHurt()
+    {
+        hurt.DOKill();
+        hurt.gameObject.SetActive(true);
+        hurt.DOScale(Vector3.one, 0.25f).OnComplete(() =>
+        {
+            hurt.gameObject.SetActive(false);
+        });
     }
 }
