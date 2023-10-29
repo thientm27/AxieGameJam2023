@@ -73,7 +73,7 @@ public class DragonMonster : Monster
             audioService.FireBall();
             GameObject bl = SimplePool.Spawn(bullet, shootTf.position, Quaternion.identity);
             var blTf = bl.transform;
-            blTf.position = shootTf.position;
+            blTf.localPosition = shootTf.position;
             blTf.rotation = Quaternion.Euler(0f, 0f, (goTransform.position.x > 0 ? 180 : 0));
 
             blTf.DOMoveX((goTransform.position.x > 0 ? - 25 : 25), 15f).SetEase(Ease.Linear).OnComplete(() =>
