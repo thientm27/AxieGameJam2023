@@ -77,6 +77,7 @@ public class Player : MonoBehaviour
     {
         if (isDeath == true) return;
         if (isStart == false) return;
+        if (canAttack == false) return;
         OnAttack?.Invoke();
         canHit = false;
         canAttack = false;
@@ -108,6 +109,7 @@ public class Player : MonoBehaviour
     }
     private void GotHit()
     {
+        if(canAttack == false) return;
         int rd = UnityEngine.Random.Range(0, 100);
         if(rd < axieCharacter.ChanceEva)
         {
@@ -169,6 +171,8 @@ public class Player : MonoBehaviour
     }
     private void Up()
     {
+        rangeCheck.CanAttack = false;
+        canAttack = false;
         float timeMove = (maxHeight - goTransform.position.y) / (maxHeight - minHeight) * timeMoveUp;
         goTransform.DOMoveY(maxHeight, timeMove).SetEase(Ease.Linear).OnComplete(() =>
         {

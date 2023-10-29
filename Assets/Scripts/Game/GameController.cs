@@ -229,7 +229,10 @@ public class GameController : MonoBehaviour
     }
     private void PlayerMissHit(int miss)
     {
-        speed -= miss;
+        if(miss != 0)
+        {
+            speed = (int)(speed * 0.8f);
+        }
         heightLava += miss;
     }
     private void PlayerAttack(int sp)
