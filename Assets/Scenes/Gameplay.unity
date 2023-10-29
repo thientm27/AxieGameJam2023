@@ -2620,6 +2620,8 @@ MonoBehaviour:
   rocketPrefab: {fileID: 8987216763474296546, guid: a83be2233b9438a4b8443ea7e01d5edc, type: 3}
   RocketParent: {fileID: 2045445758}
   haoquang: {fileID: 240814246}
+  eft: {fileID: 1765686094363071096, guid: c5df731f67ad2e84ea4922ec488cebca, type: 3}
+  efTF: {fileID: 1597673517}
 --- !u!58 &766167987
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5917,6 +5919,37 @@ MonoBehaviour:
   - {fileID: 1507426836}
   - {fileID: 1862572387}
   desText: {fileID: 844810983}
+--- !u!1 &1597673516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1597673517}
+  m_Layer: 0
+  m_Name: Efparent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1597673517
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597673516}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.43, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1642303138}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1602913474
 GameObject:
   m_ObjectHideFlags: 0
@@ -6131,6 +6164,7 @@ Transform:
   - {fileID: 2049758497}
   - {fileID: 1471977042}
   - {fileID: 240814247}
+  - {fileID: 1597673517}
   m_Father: {fileID: 766167985}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1644177153
