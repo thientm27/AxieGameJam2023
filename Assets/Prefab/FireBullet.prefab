@@ -233,6 +233,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1177576966815537050, guid: 714da7cd8600cab46ac430f6823debb2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2959209128270153086, guid: 714da7cd8600cab46ac430f6823debb2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5112204235722721435, guid: 714da7cd8600cab46ac430f6823debb2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6493783252380657472, guid: 714da7cd8600cab46ac430f6823debb2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6824156743578031375, guid: 714da7cd8600cab46ac430f6823debb2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7131562539686376197, guid: 714da7cd8600cab46ac430f6823debb2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8598228855218570557, guid: 714da7cd8600cab46ac430f6823debb2, type: 3}
       propertyPath: m_Name
       value: RocketMeshMissileFire
