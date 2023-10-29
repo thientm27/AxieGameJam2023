@@ -6,6 +6,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Utilities;
 
 public class GameController : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private Transform lava;
     [SerializeField] private GameObject layer;
     [SerializeField] private Transform bgParent;
+    [SerializeField] private ChangeSceneController changeScene;
     private float offetTileBG = 4.7f;
     private float startOffset = 9f;
     private float currentOffset = 9.8f;
@@ -43,8 +45,10 @@ public class GameController : MonoBehaviour
     // Services
     private GameServices gameServices;
     private PlayerService playerService;
+    private AudioService audioService;
 
     private int gold = 0;
+    private bool outGame = false;
     private void Awake()
     {
         if (GameObject.FindGameObjectWithTag(Constants.ServicesTag) == null)
@@ -57,9 +61,10 @@ public class GameController : MonoBehaviour
             GameObject gameServiceObject = GameObject.FindGameObjectWithTag(Constants.ServicesTag);
             gameServices = gameServiceObject.GetComponent<GameServices>();
             playerService = gameServices.GetService<PlayerService>();
+            audioService = gameServices.GetService<AudioService>();
         }
 
-        var axie = model.AxieCharacters[UnityEngine.Random.Range(0, playerService.GetLevel() + 1)];
+        var axie = model.AxieCharacters[UnityEngine.Random.Range(0, Mathf.Min(playerService.GetLevel() + 1, model.AxieCharacters.Count))];
         maxHeart = axie.MaxHP;
         // From shop
         maxHeart += playerService.ArmoryLevel[0] - 1;
@@ -68,7 +73,7 @@ public class GameController : MonoBehaviour
 
         player.DownSpeed -= playerService.AccessoryLevel[2] * 0.2f + 0.2f;
 
-        player.Initialized(axie);
+        player.Initialized(axie, audioService);
         player.OnHit = PlayerGotHit;
         player.OnMiss = PlayerMissHit;
         player.OnDeath = Lose;
@@ -81,31 +86,51 @@ public class GameController : MonoBehaviour
 
         maxHeigh += maxHeigh * 0.3f * playerService.GetLevel();
         speedLava *= (playerService.GetLevel() * 0.5f + 1);
+        audioService.PlayMusicGame();
+    }
+    private void Start()
+    {
+        changeScene.Open();
     }
     private void Lose()
     {
-        isEnd = true;
-        StopAllCoroutines();
-        DOTween.KillAll();
+        if(isEnd == false)
+        {
+            audioService.EndGame();
+            isEnd = true;
+            StopAllCoroutines();
+            DOTween.KillAll();
 
-        playerService.UserCoin += gold;
-        playerService.SavePlayerData();
+            playerService.UserCoin += gold;
+            playerService.SavePlayerData();
 
-        view.OpenLose(true, playerService.GetLevel(), playerService.UserCoin, gold, playerService.GetRecordGold(), (int)heightPlayer, playerService.GetRecordDistance());
-        playerService.SetRecordGold(gold);
-        playerService.SetReCordDistance((int)heightPlayer);
+            view.OpenLose(true, playerService.GetLevel(), playerService.UserCoin, gold, playerService.GetRecordGold(), (int)heightPlayer, playerService.GetRecordDistance());
+            playerService.SetRecordGold(gold);
+            playerService.SetReCordDistance((int)heightPlayer);
+        }
     }
     private void Update()
     {
+        if (outGame == true) return;
         if (isEnd == true)
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                SceneManager.LoadScene(Constants.GamePlay);
+                changeScene.Close(() =>
+                {
+                    SceneManager.LoadScene(Constants.GamePlay);
+                });
+                audioService.Button();
+                outGame = true;
             }
             else if(Input.GetKeyDown(KeyCode.Space))
             {
-                SceneManager.LoadScene(Constants.ShopScene);
+                changeScene.Close(() =>
+                {
+                    SceneManager.LoadScene(Constants.ShopScene);
+                });
+                audioService.Button();
+                outGame = true;
             }
             return;
         }
@@ -140,8 +165,11 @@ public class GameController : MonoBehaviour
             view.SetProgress(heightPlayer / maxHeigh);
             if(heightPlayer>= maxHeigh)
             {
-                isEnd = true;
-                Win();
+                if(isEnd == false)
+                {
+                    isEnd = true;
+                    Win();
+                }
             }
             return;
         }
@@ -167,6 +195,7 @@ public class GameController : MonoBehaviour
     }
     private void Win()
     {
+        audioService.EndGame();
         playerService.UserCoin += gold;
         playerService.SavePlayerData();
         playerService.SetLevel(playerService.GetLevel() + 1);
@@ -193,7 +222,6 @@ public class GameController : MonoBehaviour
         if(currentHeart <= 0)
         {
             player.Death();
-            isEnd = true;
             Lose();
         }
         combo -= 2;
@@ -214,6 +242,7 @@ public class GameController : MonoBehaviour
             combo = 0;
             speedLava += 5;
             speed += playerService.AccessoryLevel[3] * 2 - 2;
+            audioService.Buff();
         }
         view.SetCombo(combo);
         speed += sp;
@@ -228,7 +257,7 @@ public class GameController : MonoBehaviour
         {
             GameObject go = SimplePool.Spawn(monsters[monster], Vector2.zero, Quaternion.identity);
             Monster ms = go.GetComponent<Monster>();
-            ms.Init(player.transform);
+            ms.Init(player.transform, audioService);
             ms.OnDeath = PlayerAttack;
         }
         StartCoroutine(SpawnNormal(timeSpawn, numberSpawnPerTime, monster));
@@ -241,7 +270,7 @@ public class GameController : MonoBehaviour
         {
             GameObject go = SimplePool.Spawn(monsters[monster], Vector2.zero, Quaternion.identity);
             Monster ms = go.GetComponent<Monster>();
-            ms.Init(player.transform);
+            ms.Init(player.transform, audioService);
             ms.OnDeath = PlayerAttack;
         }
         StartCoroutine(SpawnThorn(timeSpawn, numberSpawnPerTime, monster));
@@ -254,7 +283,7 @@ public class GameController : MonoBehaviour
         {
             GameObject go = SimplePool.Spawn(monsters[monster], Vector2.zero, Quaternion.identity);
             Monster ms = go.GetComponent<Monster>();
-            ms.Init(player.transform);
+            ms.Init(player.transform, audioService);
             ms.OnDeath = PlayerAttack;
         }
         StartCoroutine(SpawnHigh(timeSpawn, numberSpawnPerTime, monster));
@@ -267,7 +296,7 @@ public class GameController : MonoBehaviour
         {
             GameObject go = SimplePool.Spawn(monsters[monster], Vector2.zero, Quaternion.identity);
             Monster ms = go.GetComponent<Monster>();
-            ms.Init(player.transform);
+            ms.Init(player.transform, audioService);
             ms.OnDeath = PlayerAttack;
         }
         StartCoroutine(SpawnStraight(timeSpawn, numberSpawnPerTime, monster));
@@ -280,7 +309,7 @@ public class GameController : MonoBehaviour
         {
             GameObject go = SimplePool.Spawn(monsters[monster], Vector2.zero, Quaternion.identity);
             Monster ms = go.GetComponent<Monster>();
-            ms.Init(player.transform);
+            ms.Init(player.transform, audioService);
             ms.OnDeath = PlayerAttack;
         }
         StartCoroutine(SpawnDragon(timeSpawn, numberSpawnPerTime, monster));
@@ -293,7 +322,7 @@ public class GameController : MonoBehaviour
         {
             GameObject go = SimplePool.Spawn(monsters[monster], Vector2.zero, Quaternion.identity);
             Monster ms = go.GetComponent<Monster>();
-            ms.Init(player.transform);
+            ms.Init(player.transform, audioService);
             ms.OnDeath = PlayerAttack;
         }
         StartCoroutine(SpawnBat(timeSpawn, numberSpawnPerTime, monster));
@@ -306,7 +335,7 @@ public class GameController : MonoBehaviour
         {
             GameObject go = SimplePool.Spawn(monsters[monster], Vector2.zero, Quaternion.identity);
             Monster ms = go.GetComponent<Monster>();
-            ms.Init(player.transform);
+            ms.Init(player.transform, audioService);
             ms.OnDeath = PlayerAttack;
         }
         StartCoroutine(SpawnLaze(timeSpawn, numberSpawnPerTime, monster));

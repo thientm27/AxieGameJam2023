@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Services;
 using Spine;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,9 +9,9 @@ public class LazerMonster : Monster
 {
     [SerializeField] private GameObject thorn;
     [SerializeField] private Transform model;
-    public override void Init(Transform player)
+    public override void Init(Transform player, AudioService audioService)
     {
-        base.Init(player);
+        base.Init(player, audioService);
         AttackRate = 0.5f;
         Move();
         HP = 1;
@@ -60,6 +61,7 @@ public class LazerMonster : Monster
         {
         };
         yield return new WaitForSeconds(0.65f);
+        audioService.Laser();
         thorn.SetActive(true);
         yield return new WaitForSeconds(1.0f);
         thorn.SetActive(false);

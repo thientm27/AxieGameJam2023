@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Services;
 using Spine;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,9 +7,9 @@ using UnityEngine;
 
 public class NormalHighSpeedMonster : Monster
 {
-    public override void Init(Transform player)
+    public override void Init(Transform player, AudioService audioService)
     {
-        base.Init(player);
+        base.Init(player, audioService);
         HP = 1;
         Move();
         colliderTf.enabled = true;

@@ -1,12 +1,13 @@
 using DG.Tweening;
+using Services;
 using Spine;
 using UnityEngine;
 
 public class NormalMonster : Monster
 {
-    public override void Init(Transform player)
+    public override void Init(Transform player, AudioService audioService)
     {
-        base.Init(player);
+        base.Init(player, audioService);
         HP = 1;
         Move();
         colliderTf.enabled = true;
