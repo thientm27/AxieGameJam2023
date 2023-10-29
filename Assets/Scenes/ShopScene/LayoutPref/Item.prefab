@@ -831,7 +831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indicator: {fileID: 2727174508301486258}
-  price: {fileID: 6723730840261078451}
+  price: {fileID: 8719874910491804631}
   levels:
   - {fileID: 831285686455394753}
   - {fileID: 7492488072780747961}
